@@ -44,16 +44,16 @@ public class Crc16 {
         return calculateCrc(arg.getBytes());
     }
 
-    public static short calculateCrc(byte[] bytes) {
+    public static short calculateCrc(byte[] bytes, int offset, int length) {
         int crc = 0x0000;
-        for (byte b : bytes) {
-            crc = (crc >>> 8) ^ TABLE[(crc ^ b) & 0xff];
+        for (int  i = 0; i < offset + length; i++) {
+            crc = (crc >>> 8) ^ TABLE[(crc ^ bytes[i]) & 0xff];
         }
 
         return (short) crc;
     }
 
-    public static void printCrc(String arg) {
-        System.out.println(Integer.toHexString(calculateCrc(arg)));
+    public static short calculateCrc(byte[] bytes) {
+        return calculateCrc(bytes, 0, bytes.length);
     }
 }
