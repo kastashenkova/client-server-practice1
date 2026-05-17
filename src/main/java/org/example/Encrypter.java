@@ -5,7 +5,9 @@ import java.nio.ByteBuffer;
 public class Encrypter {
 
     public byte[] encrypt(Message message){
-        ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 8 + 4 + 2 + + 4 + 4 + message.getMessageString().getBytes().length + 2);
+        ByteBuffer buffer = ByteBuffer.allocate(
+                1 + 1 + 8 + 4 + 2 + 4 + 4
+                        + message.getMessageString().getBytes().length + 2);
         buffer.put((byte) 0x13);
         buffer.put(message.getUniqueIdentifier());
         buffer.putLong(message.getMessageNumber());
