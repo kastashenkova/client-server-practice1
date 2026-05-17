@@ -18,14 +18,14 @@ public class Decrypter {
         int commandId = buffer.getInt();
         int userId = buffer.getInt();
 
-        byte[] payload = new byte[wlen - 8];
-        buffer.get(16 + 8, payload, 0, payload.length);
+        byte[] payload = new byte[wlen];
+        buffer.get(16, payload, 0, wlen);
 
-        short secondCrc = buffer.getShort();
+        short secondCrc = buffer.getShort(16 + wlen);
         short checkSum2 = Crc16.calculateCrc(payload);
         validateChecksum(checkSum2, secondCrc);
 
-        return new Message(uniqueIdentifierByte, messageNumber, commandId, userId, new String(payload));
+        return new Message(uniqueIdentifierByte, messageNumber, commandId, userId, new String(payload, 8, wlen - 8));
     }
 
     private void validateChecksum(short checkSum, short secondCrc){
