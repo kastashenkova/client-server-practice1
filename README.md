@@ -2,8 +2,8 @@
 
 <img width="1713" height="729" alt="image" src="https://github.com/user-attachments/assets/b21c0c36-cdf3-4bb9-8486-4b715b55ff92" />
 
-### Test coverage
-<img width="1167" height="278" alt="image" src="https://github.com/user-attachments/assets/675714ee-b732-42e0-beb6-48f1f1437319" />
+## Test coverage
+<img width="1079" height="186" alt="image" src="https://github.com/user-attachments/assets/4b1fc824-2a60-497f-b883-1ab009a7b078" />
 
 > made with [Jacoco](https://www.eclemma.org/jacoco/)
 
