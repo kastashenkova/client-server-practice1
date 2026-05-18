@@ -3,6 +3,7 @@ package org.example;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -12,13 +13,10 @@ public class MessageCipher {
 
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding"; // Cipher Block Chaining
 
-    private static final byte[] SECRET_KEY =
-            System.getenv("SECRET_KEY").getBytes(StandardCharsets.UTF_8);
-
     private final SecretKeySpec keySpec;
 
     public MessageCipher() {
-        this.keySpec = new SecretKeySpec(SECRET_KEY, "AES");
+        this.keySpec = new SecretKeySpec(getSecretKey(), "AES");
     }
 
     public byte[] encrypt(byte[] plainText) {
@@ -49,5 +47,21 @@ public class MessageCipher {
             throw new MessageCipherException("Decryption failed for message: "
                     + Arrays.toString(cipherText));
         }
+    }
+
+    private byte[] getSecretKey() {
+        String key = "defaultSecretKey";
+        try (BufferedReader reader = new BufferedReader(new FileReader(".env"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("SECRET_KEY=")) {
+                    key = line.substring("SECRET_KEY=".length()).trim();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("");
+        }
+        return key.getBytes(StandardCharsets.UTF_8);
     }
 }
