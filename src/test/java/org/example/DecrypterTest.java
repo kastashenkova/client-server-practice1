@@ -3,7 +3,6 @@ package org.example;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import org.apache.commons.codec.DecoderException;
 import org.junit.jupiter.api.Test;
 
 public class DecrypterTest {
@@ -20,7 +19,7 @@ public class DecrypterTest {
     private static final byte[] TEST_PACKET = encrypter.encrypt(TEST_MESSAGE);
 
     @Test
-    void shouldDecryptMessage() throws DecoderException {
+    void shouldDecryptMessage() {
         Message actual = SUT.decrypt(TEST_PACKET);
 
         assertThat(actual)
@@ -52,7 +51,7 @@ public class DecrypterTest {
     @Test
     void shouldThrowOnCorruptedPayload() {
         byte[] packet = TEST_PACKET.clone();
-        packet[20] ^= (byte) 0xFF;
+        packet[20] ^= (byte) 0xFF; // corrupt userId field inside payload (offset 20)
 
         assertThatThrownBy(() -> SUT.decrypt(packet))
                 .isInstanceOf(IllegalArgumentException.class);

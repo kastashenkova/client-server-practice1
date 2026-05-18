@@ -4,6 +4,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -61,8 +62,11 @@ public class MessageCipher {
                     break;
                 }
             }
+        } catch (FileNotFoundException e) {
+            // using the default key
+            System.err.println("Warning: .env not found, using default key");
         } catch (IOException e) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Failed to read .env file", e);
         }
         return key.getBytes(StandardCharsets.UTF_8);
     }

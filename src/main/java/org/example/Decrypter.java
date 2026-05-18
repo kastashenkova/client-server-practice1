@@ -15,6 +15,12 @@ public class Decrypter {
     public Message decrypt(byte[] messageToDecrypt){
         ByteBuffer buffer = ByteBuffer.wrap(messageToDecrypt);
         byte magicByte = buffer.get();
+        if (magicByte != 0x13) {
+            throw new IllegalArgumentException(
+                    "Invalid magic byte: expected 0x13, got 0x"
+                            + Integer.toHexString(magicByte & 0xFF));
+        }
+
         byte uniqueIdentifierByte = buffer.get();
         long messageNumber = buffer.getLong();
         int wlen = buffer.getInt();
