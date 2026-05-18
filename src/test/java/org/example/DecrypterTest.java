@@ -11,7 +11,7 @@ public class DecrypterTest {
     private static final MessageCipher messageCipher = new MessageCipher();
     private static final Decrypter SUT = new Decrypter(messageCipher);
     private static final Encrypter encrypter = new Encrypter(messageCipher);
-    private static final String testMessageText = "Hello World!";
+    private static final String testMessageText = "Astashenkova";
     private static final Message TEST_MESSAGE = new Message((byte) 0x12,
             128L,
             4,
@@ -24,11 +24,11 @@ public class DecrypterTest {
         Message actual = SUT.decrypt(TEST_PACKET);
 
         assertThat(actual)
-                .returns((byte) 0x12, Message::getUniqueIdentifier)
-                .returns(128L, Message::getMessageNumber)
-                .returns(4, Message::getCommandId)
-                .returns(67, Message::getUserId)
-                .returns(testMessageText, Message::getMessageString);
+                .returns((byte) 0x12, Message::uniqueIdentifier)
+                .returns(128L, Message::messageNumber)
+                .returns(4, Message::commandId)
+                .returns(67, Message::userId)
+                .returns(testMessageText, Message::messageString);
     }
 
     @Test

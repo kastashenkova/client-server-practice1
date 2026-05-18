@@ -11,7 +11,7 @@ public class EncrypterTest {
 
     private static final MessageCipher messageCipher = new MessageCipher();
     private static final Encrypter SUT = new Encrypter(messageCipher);
-    private static final String testMessageText = "Hello World!";
+    private static final String testMessageText = "Astashenkova";
     private static final Message TEST_MESSAGE = new Message((byte) 0x12,
             128L,
             4,

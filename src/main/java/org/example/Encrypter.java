@@ -13,13 +13,13 @@ public class Encrypter {
 
     public byte[] encrypt(Message message){
         byte[] encryptedMessage = messageCipher.encrypt(message
-                .getMessageString()
+                .messageString()
                 .getBytes(StandardCharsets.UTF_8));
         int wLen = 4 + 4 + encryptedMessage.length;
         ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 8 + 4 + 2 + wLen + 2);
         buffer.put((byte) 0x13);
-        buffer.put(message.getUniqueIdentifier());
-        buffer.putLong(message.getMessageNumber());
+        buffer.put(message.uniqueIdentifier());
+        buffer.putLong(message.messageNumber());
         buffer.putInt(wLen);
 
         // 1st Crc
@@ -28,8 +28,8 @@ public class Encrypter {
         buffer.putShort(Crc16.calculateCrc(header));
 
         // 2nd table
-        buffer.putInt(message.getCommandId());
-        buffer.putInt(message.getUserId());
+        buffer.putInt(message.commandId());
+        buffer.putInt(message.userId());
         buffer.put(encryptedMessage);
 
         // 2nd Crc

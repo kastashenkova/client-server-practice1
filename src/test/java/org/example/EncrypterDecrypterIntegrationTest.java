@@ -16,7 +16,7 @@ public class EncrypterDecrypterIntegrationTest {
                 128L,
                 4,
                 67,
-                "Hello World!"));
+                "Astashenkova"));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class EncrypterDecrypterIntegrationTest {
                 128L,
                 4,
                 67,
-                "Привіт Світ!"));
+                "Асташенкова"));
     }
 
     @Test
@@ -52,10 +52,10 @@ public class EncrypterDecrypterIntegrationTest {
         Message decrypted = decrypter.decrypt(encrypted);
 
         assertThat(decrypted)
-                .returns(original.getUniqueIdentifier(), Message::getUniqueIdentifier)
-                .returns(original.getMessageNumber(), Message::getMessageNumber)
-                .returns(original.getCommandId(), Message::getCommandId)
-                .returns(original.getUserId(), Message::getUserId)
-                .returns(original.getMessageString(), Message::getMessageString);
+                .returns(original.uniqueIdentifier(), Message::uniqueIdentifier)
+                .returns(original.messageNumber(), Message::messageNumber)
+                .returns(original.commandId(), Message::commandId)
+                .returns(original.userId(), Message::userId)
+                .returns(original.messageString(), Message::messageString);
     }
 }
