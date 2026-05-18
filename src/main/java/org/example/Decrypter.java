@@ -1,8 +1,16 @@
 package org.example;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class Decrypter {
+
+    private final MessageCipher messageCipher;
+
+    public Decrypter(MessageCipher messageCipher) {
+        this.messageCipher = messageCipher;
+    }
 
     public Message decrypt(byte[] messageToDecrypt){
         ByteBuffer buffer = ByteBuffer.wrap(messageToDecrypt);
@@ -25,11 +33,15 @@ public class Decrypter {
         short checkSum2 = Crc16.calculateCrc(payload);
         validateChecksum(checkSum2, secondCrc);
 
-        return new Message(uniqueIdentifierByte, messageNumber, commandId, userId, new String(payload, 8, wlen - 8));
+        String decryptedMessage = new String(
+                messageCipher.decrypt(
+                        Arrays.copyOfRange(payload, 8, wlen)), StandardCharsets.UTF_8);
+
+        return new Message(uniqueIdentifierByte, messageNumber, commandId, userId, decryptedMessage);
     }
 
     private void validateChecksum(short checkSum, short secondCrc){
-        if(checkSum != secondCrc){
+        if (checkSum != secondCrc){
             throw new IllegalArgumentException("Checksum does not match");
         }
     }

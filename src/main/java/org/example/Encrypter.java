@@ -1,17 +1,26 @@
 package org.example;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class Encrypter {
 
+    private final MessageCipher messageCipher;
+
+    public Encrypter(MessageCipher messageCipher) {
+        this.messageCipher = messageCipher;
+    }
+
     public byte[] encrypt(Message message){
-        ByteBuffer buffer = ByteBuffer.allocate(
-                1 + 1 + 8 + 4 + 2 + 4 + 4
-                        + message.getMessageString().getBytes().length + 2);
+        byte[] encryptedMessage = messageCipher.encrypt(message
+                .getMessageString()
+                .getBytes(StandardCharsets.UTF_8));
+        int wLen = 4 + 4 + encryptedMessage.length;
+        ByteBuffer buffer = ByteBuffer.allocate(1 + 1 + 8 + 4 + 2 + wLen + 2);
         buffer.put((byte) 0x13);
         buffer.put(message.getUniqueIdentifier());
         buffer.putLong(message.getMessageNumber());
-        buffer.putInt(message.getMessageString().getBytes().length + 4 + 4);
+        buffer.putInt(wLen);
 
         // 1st Crc
         byte[] header = new byte[14];
@@ -21,11 +30,11 @@ public class Encrypter {
         // 2nd table
         buffer.putInt(message.getCommandId());
         buffer.putInt(message.getUserId());
-        buffer.put(message.getMessageString().getBytes());
+        buffer.put(encryptedMessage);
 
         // 2nd Crc
-        byte[] payload = new byte[4 + 4 +message.getMessageString().getBytes().length];
-        buffer.get(16, payload, 0, payload.length);
+        byte[] payload = new byte[wLen];
+        buffer.get(16, payload, 0, wLen);
         buffer.putShort(Crc16.calculateCrc(payload));
 
         return buffer.array();
