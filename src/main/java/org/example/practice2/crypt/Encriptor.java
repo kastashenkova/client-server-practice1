@@ -1,4 +1,4 @@
-package practice2.crypt;
+package org.example.practice2.crypt;
 
 import org.example.practice1.Encrypter;
 import org.example.practice1.Message;

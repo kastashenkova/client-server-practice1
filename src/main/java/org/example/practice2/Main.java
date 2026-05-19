@@ -1,15 +1,13 @@
-package practice2;
+package org.example.practice2;
 
-import org.example.practice1.Encrypter;
 import org.example.practice1.Message;
-import org.example.practice1.MessageCipher;
-import practice2.crypt.Decriptor;
-import practice2.crypt.Encriptor;
-import practice2.processor.Processor;
-import practice2.receiver.Receiver;
-import practice2.receiver.ReceiverImpl;
-import practice2.sender.Sender;
-import practice2.sender.SenderImpl;
+import org.example.practice2.crypt.Decriptor;
+import org.example.practice2.crypt.Encriptor;
+import org.example.practice2.processor.Processor;
+import org.example.practice2.receiver.Receiver;
+import org.example.practice2.receiver.ReceiverImpl;
+import org.example.practice2.sender.Sender;
+import org.example.practice2.sender.SenderImpl;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package practice2.sender;
+package org.example.practice2.sender;
 
 import java.net.InetAddress;
 

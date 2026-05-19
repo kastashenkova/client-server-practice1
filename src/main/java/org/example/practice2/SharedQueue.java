@@ -1,4 +1,4 @@
-package practice2;
+package org.example.practice2;
 
 import java.util.LinkedList;
 import java.util.Queue;

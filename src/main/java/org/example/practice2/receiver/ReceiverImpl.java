@@ -1,4 +1,4 @@
-package practice2.receiver;
+package org.example.practice2.receiver;
 
 import java.util.UUID;
 

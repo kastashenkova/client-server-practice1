@@ -1,4 +1,4 @@
-package practice2.processor;
+package org.example.practice2.processor;
 
 public enum HttpStatusCode {
     OK(200),

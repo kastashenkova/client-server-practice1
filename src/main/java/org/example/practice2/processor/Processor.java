@@ -1,4 +1,4 @@
-package practice2.processor;
+package org.example.practice2.processor;
 
 import org.example.practice1.Message;
 
