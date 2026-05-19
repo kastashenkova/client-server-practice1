@@ -1,4 +1,4 @@
-package org.example;
+package org.example.practice1;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

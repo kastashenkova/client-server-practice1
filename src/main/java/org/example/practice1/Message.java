@@ -1,4 +1,4 @@
-package org.example;
+package org.example.practice1;
 
 public record Message(byte uniqueIdentifier,
                       long messageNumber,

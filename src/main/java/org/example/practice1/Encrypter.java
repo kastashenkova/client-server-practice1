@@ -1,4 +1,4 @@
-package org.example;
+package org.example.practice1;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
