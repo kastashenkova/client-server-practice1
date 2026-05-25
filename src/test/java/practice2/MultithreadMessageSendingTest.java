@@ -3,6 +3,8 @@ package practice2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -16,6 +18,8 @@ import org.example.practice1.Message;
 import org.example.practice1.MessageCipher;
 import org.example.practice2.Scaling;
 import org.example.practice2.SharedQueue;
+import org.example.practice2.sender.Sender;
+import org.example.practice2.sender.SenderImpl;
 import org.example.practice2.warehouse.WarehouseService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -167,5 +171,37 @@ class MultithreadMessageSendingTest {
 
         int expected = Math.max(0, 1000 + netChange.get());
         assertEquals(expected, warehouse.getStock("oats"));
+    }
+
+    @Test
+    void sender_shouldConsumeAndProcessMessages() throws Exception {
+        SharedQueue<byte[]> sendQueue = new SharedQueue<>();
+        Sender sender = new SenderImpl(sendQueue);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        Thread senderThread = new Thread(sender);
+
+        try {
+            senderThread.start();
+
+            sendQueue.produce(new byte[]{1, 2, 3}); // 3 bytes
+            sendQueue.produce(new byte[]{4, 5, 6, 7, 8}); // 5 bytes
+
+            Thread.sleep(200);
+
+            String consoleOutput = outContent.toString();
+
+            assertTrue(consoleOutput.contains("[SEND] 3 bytes"));
+            assertTrue(consoleOutput.contains("[SEND] 5 bytes"));
+
+        } finally {
+            sender.stop();
+            senderThread.interrupt();
+            senderThread.join(1000);
+            System.setOut(originalOut);
+        }
     }
 }
